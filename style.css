@@ -291,3 +291,13 @@ button {
 .submitBtn button:hover::before {
   border-color: hsl(252, 6%, 83%);
 }
+.ticket-svg{
+    background-image:url("/assets/images/pattern-ticket.svg") ;
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+.ticket-wrapper{
+    display: flex;
+    padding: 20px;
+    justify-content: space-between;
+}
