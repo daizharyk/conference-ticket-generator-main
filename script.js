@@ -1,0 +1,142 @@
+const fileInput = document.getElementById("image-upload");
+const uploadBox = document.querySelector(".upload-box");
+const uploadHint = document.querySelector(".upload-hint");
+const uploadedImage = document.getElementById("uploaded-image");
+const imagePreview = document.getElementById("image-preview");
+const removeBtn = document.getElementById("remove-btn");
+const changeBtn = document.getElementById("change-btn");
+const svgWrapper = document.querySelector(".svg-wrapper");
+const svgUploadIcon = document.querySelector(".svg-wrapper svg");
+const form = document.getElementById("registration-form");
+
+svgUploadIcon.addEventListener("click", () => fileInput.click());
+
+uploadBox.addEventListener("dragover", (e) => {
+  e.preventDefault();
+  uploadBox.style.border = "2px dashed hsl(252, 6%, 83%)";
+  uploadBox.style.backgroundColor = "hsl(245, 19%, 35%)";
+  uploadBox.style.boxShadow = "0 10px 20px rgba(0, 0, 0, 0.2)";
+  uploadBox.style.transform = "scale(1.01)";
+});
+
+uploadBox.addEventListener("dragleave", () => {
+  uploadBox.style.border = "2px dashed hsl(245, 15%, 58%)";
+  uploadBox.style.backgroundColor = "rgba(255, 255, 255, 0.1)";
+  uploadBox.style.boxShadow = "none";
+  uploadBox.style.transform = "scale(1)";
+});
+
+uploadBox.addEventListener("drop", (e) => {
+  e.preventDefault();
+  resetUploadBoxStyles();
+
+  uploadBox.style.border = "2px dashed hsl(245, 15%, 58%)";
+  uploadBox.style.backgroundColor = "rgba(255, 255, 255, 0.1)";
+  uploadBox.style.boxShadow = "none";
+  uploadBox.style.transform = "scale(1)";
+  handleFileUpload(e.dataTransfer.files);
+});
+fileInput.addEventListener("change", (e) => {
+  handleFileUpload(e.target.files);
+});
+
+function handleFileUpload(files) {
+  if (files.length !== 1) {
+    return;
+  }
+  const file = files[0];
+  const validTypes = ["image/jpeg", "image/png"];
+  const maxSize = 500 * 1024;
+
+  if (!validTypes.includes(file.type)) {
+    showMessage("Invalid file type. Please upload JPG or PNG.", true);
+    return;
+  }
+  if (file.size > maxSize) {
+    showMessage("File too large. Please upload a photo under 500KB.", true);
+    return;
+  }
+  fileInput.files = files;
+  previewImage(file);
+  resetMessage();
+}
+
+function previewImage(file) {
+  const reader = new FileReader();
+  reader.onload = (e) => {
+    uploadedImage.src = e.target.result;
+    imagePreview.style.display = "block";
+    svgWrapper.style.display = "none";
+  };
+  reader.readAsDataURL(file);
+}
+removeBtn.addEventListener("click", () => {
+  uploadedImage.src = "";
+  imagePreview.style.display = "none";
+  svgWrapper.style.display = "flex";
+  fileInput.value = "";
+  resetMessage();
+});
+
+changeBtn.addEventListener("click", () => {
+  fileInput.value = "";
+  fileInput.click();
+});
+
+function resetUploadBoxStyles() {
+  uploadBox.style.border = "2px dashed hsl(245, 15%, 58%)";
+  uploadBox.style.backgroundColor = "rgba(255, 255, 255, 0.1)";
+  uploadBox.style.boxShadow = "none";
+  uploadBox.style.transform = "scale(1)";
+}
+function showMessage(message, isError) {
+  uploadHint.style.display = "block";
+  uploadHint.innerHTML = `
+        <span class="warning-icon" style="color: ${
+          isError ? " hsl(7, 88%, 67%)" : "hsl(140, 60%, 45%)"
+        }">
+          &#9432;
+        </span> 
+        <span style="color: ${isError ? " hsl(7, 88%, 67%)" : "inherit"}">
+          ${message}
+        </span>
+      `;
+}
+function resetMessage() {
+  uploadHint.style.display = "block";
+  uploadHint.innerHTML = `
+        <span class="warning-icon">
+          &#9432;
+        </span> 
+        <span>Upload your photo (JPG or PNG, max size: 500KB)</span>
+      `;
+}
+const email = document.getElementById("email").value.trim();
+const emailInput = document.getElementById("email");
+emailInput.addEventListener("input", () => {
+    emailValidMessage.innerHTML = "";
+  });
+
+const emailValidMessage = document.querySelector(".email-valid-message");
+form.addEventListener("submit", (event) => {
+  event.preventDefault();
+
+  let isValid = true;
+  if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    emailValidMessage.innerHTML = `
+    <span class="warning-icon" style="color: hsl(7, 88%, 67%)">
+      &#9432;
+    </span> 
+    <span style="color: hsl(7, 88%, 67%)">
+      Please enter a valid email address
+    </span>`;
+    emailInput.style.border = "1px solid hsl(7, 88%, 67%)";
+    isValid = false;
+  } else {
+    emailValidMessage.innerHTML = "";
+  }
+
+  if (isValid) {
+    form.submit();
+  }
+});
