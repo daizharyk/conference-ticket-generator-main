@@ -111,18 +111,30 @@ function resetMessage() {
         <span>Upload your photo (JPG or PNG, max size: 500KB)</span>
       `;
 }
-const email = document.getElementById("email").value.trim();
-const emailInput = document.getElementById("email");
-emailInput.addEventListener("input", () => {
-    emailValidMessage.innerHTML = "";
-  });
 
+const emailInput = document.getElementById("email");
+
+emailInput.addEventListener("input", () => {
+  emailValidMessage.innerHTML = "";
+});
+const imageInput = document.getElementById("image-upload");
+const userImg = document.querySelector(".user-img img");
+
+const userName = document.querySelector(".user-name");
+const userEmail = document.getElementById("user-email");
+const gitLogin = document.querySelector(".git-login");
+const nameInput = document.getElementById("name");
+const loginInput = document.getElementById("login");
+const userNameTicket = document.querySelector(".user-name-ticket");
 const emailValidMessage = document.querySelector(".email-valid-message");
+const formContainer = document.querySelector(".form-container");
+const ticketContainer = document.querySelector(".ticket-container");
+
 form.addEventListener("submit", (event) => {
   event.preventDefault();
 
   let isValid = true;
-  if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+  if (!emailInput || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailInput.value)) {
     emailValidMessage.innerHTML = `
     <span class="warning-icon" style="color: hsl(7, 88%, 67%)">
       &#9432;
@@ -137,6 +149,21 @@ form.addEventListener("submit", (event) => {
   }
 
   if (isValid) {
-    form.submit();
+    userName.textContent = nameInput.value;
+    userNameTicket.textContent = nameInput.value;
+    userEmail.textContent = emailInput.value;
+    gitLogin.textContent = loginInput.value;
+
+    formContainer.style.display = "none";
+    ticketContainer.style.display = "flex";
+    const file = imageInput.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        userImg.src = e.target.result;
+        userImg.alt = "User Avatar";
+      };
+      reader.readAsDataURL(file);
+    }
   }
 });
