@@ -117,6 +117,7 @@ const emailInput = document.getElementById("email");
 emailInput.addEventListener("input", () => {
   emailValidMessage.innerHTML = "";
 });
+
 const imageInput = document.getElementById("image-upload");
 const userImg = document.querySelector(".user-img img");
 
@@ -129,7 +130,20 @@ const userNameTicket = document.querySelector(".user-name-ticket");
 const emailValidMessage = document.querySelector(".email-valid-message");
 const formContainer = document.querySelector(".form-container");
 const ticketContainer = document.querySelector(".ticket-container");
+const nameValidMessage = document.querySelector(".name-valid-message");
+const gitLoginValidMessage = document.querySelector(".git-login-valid-message");
 
+nameInput.addEventListener("input", () => {
+  nameInput.style.border = "1px solid hsl(245, 19%, 35%)";
+  nameValidMessage.innerHTML = "";
+});
+loginInput.addEventListener("input", () => {
+  loginInput.style.border = "1px solid hsl(245, 19%, 35%)";
+  gitLoginValidMessage.innerHTML = "";
+});
+emailInput.addEventListener("input", (e) => {
+  emailInput.style.border = "1px solid hsl(245, 19%, 35%)";
+});
 form.addEventListener("submit", (event) => {
   event.preventDefault();
 
@@ -143,12 +157,46 @@ form.addEventListener("submit", (event) => {
       Please enter a valid email address
     </span>`;
     emailInput.style.border = "1px solid hsl(7, 88%, 67%)";
+    emailInput.focus();
     isValid = false;
   } else {
     emailValidMessage.innerHTML = "";
   }
 
+  if (!nameInput || !nameInput.value.trim()) {
+    nameValidMessage.innerHTML = `
+    <span class="warning-icon" style="color: hsl(7, 88%, 67%)">
+      &#9432;
+    </span> 
+    <span style="color: hsl(7, 88%, 67%)">
+      Please enter your name
+    </span>`;
+    nameInput.style.border = "1px solid hsl(7, 88%, 67%)";
+    nameInput.focus();
+    isValid = false;
+  } else {
+    nameInput.style.border = "";
+  }
+
+  if (!loginInput || !loginInput.value.trim()) {
+    gitLoginValidMessage.innerHTML = `
+    <span class="warning-icon" style="color: hsl(7, 88%, 67%)">
+      &#9432;
+    </span> 
+    <span style="color: hsl(7, 88%, 67%)">
+      Please enter your GitHub username
+    </span>`;
+    loginInput.style.border = "1px solid hsl(7, 88%, 67%)";
+    loginInput.focus();
+    isValid = false;
+  } else {
+    loginInput.style.border = "";
+  }
+
   if (isValid) {
+    const ticketNumber = Math.floor(10000 + Math.random() * 90000);
+    const ticketNumberElement = document.querySelector(".ticket-number p");
+    ticketNumberElement.textContent = `#${ticketNumber}`;
     userName.textContent = nameInput.value;
     userNameTicket.textContent = nameInput.value;
     userEmail.textContent = emailInput.value;

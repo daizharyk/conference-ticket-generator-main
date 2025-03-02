@@ -33,14 +33,18 @@ main {
 
   pointer-events: none;
 }
-.svg-line-background{
+.svg-line-background {
     position: fixed;
     top: 0;
-    right: 100px;
-    width: auto;
-    height: auto;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
     pointer-events: none;
+    z-index: 1;
+    background: url('/assets/images/pattern-lines.svg') repeat;
+    background-size: auto;
 }
+
 .svg-circle {
   position: absolute;
   top: 50%;
