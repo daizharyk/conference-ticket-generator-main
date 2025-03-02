@@ -41,7 +41,7 @@ main {
     height: 100vh;
     pointer-events: none;
     z-index: 1;
-    background: url('/assets/images/pattern-lines.svg') repeat;
+    background: url('./assets/images/pattern-lines.svg') repeat;
     background-size: auto;
 }
 
@@ -308,7 +308,7 @@ button {
   width: 100%;
   max-width: 600px;
   min-height: 280px;
-  background-image: url("/assets/images/pattern-ticket.svg");
+  background-image: url("./assets/images/pattern-ticket.svg");
 
   background-size: contain;
   background-repeat: no-repeat;
