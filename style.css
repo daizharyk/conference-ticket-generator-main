@@ -55,7 +55,7 @@ main {
   pointer-events: none;
 }
 .svg-lines svg {
-  position: fixed;
+  position: absolute;
   bottom: 0;
   left: 0;
   width: 600px;
@@ -447,10 +447,7 @@ button {
     width: 50px;
     height: 50px;
   }
-  .svg-lines svg {
-    width: 100vw;
-    
-  }
+
   .svg-line-small svg {
     position: absolute;
     top: 0;
